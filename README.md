@@ -22,7 +22,6 @@ A full-stack food delivery platform where customers can browse restaurants, plac
 | **Restaurant Owner** | Manage restaurant profile, menu items, opening hours, and incoming orders |
 | **Delivery Driver** | Go online/offline with shift tracking, accept orders, report live location |
 | **Admin** | Manage all users, restaurants, orders, categories, places, reviews, and generate reports |
-| **Super Admin** | Full unrestricted access |
 
 ## Key Features
 
@@ -105,7 +104,7 @@ A full-stack food delivery platform where customers can browse restaurants, plac
 
 ```bash
 git clone https://github.com/AldinKajmovic/dontbehungry
-cd dontbehungry
+cd Food-delivery-platform
 ```
 
 ### 2. Set up the backend

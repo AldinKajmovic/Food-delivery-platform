@@ -115,7 +115,7 @@ cd backend
 npm install
 ```
 
-Create a `.env` file in `backend/` with the required environment variables (database URL, JWT secrets, SMTP credentials, GCS config, etc.).
+Create a `.env` file in `backend/` with the required environment variables (database URL, JWT secrets, SMTP credentials, GCS config, ADMIN_WHITELISTED_IPS, etc.).
 
 ```bash
 npx prisma migrate dev      # Run database migrations
@@ -145,8 +145,9 @@ Visit `http://localhost:3000` in your browser.
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@glovo.com | admin123 |
-| Customer | customer@test.com | test123 |
+| Admin | admin@najedise.com | env.SEED_ADMIN_PASSWORD |
+| Customer | customer@test.com | env.SEED_CUSTOMER_PASSWORD |
+| Driver | user1@test.com | env.SEED_DRIVER_PASSWORD |
 
 ## Available Scripts
 

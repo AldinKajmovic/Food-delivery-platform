@@ -136,11 +136,11 @@ export function OrderItemsManager({
       ) : (
         <div className="space-y-2">
           {items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-lg p-3">
+            <div key={item.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-lg p-3 dark:bg-neutral-800 dark:border-neutral-700">
               {editingItemId === item.id ? (
                 <div className="flex-1 flex items-center gap-3">
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{item.menuItem.name}</p>
+                    <p className="font-medium text-sm text-gray-900 dark:text-neutral-100">{item.menuItem.name}</p>
                   </div>
                   <input
                     type="number"
@@ -179,14 +179,14 @@ export function OrderItemsManager({
               ) : (
                 <>
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{item.menuItem.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-sm text-gray-900 dark:text-neutral-100">{item.menuItem.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-neutral-400">
                       {item.quantity} x ${parseFloat(item.unitPrice).toFixed(2)}
                       {item.notes && <span className="ml-2 italic">({item.notes})</span>}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">${parseFloat(item.totalPrice).toFixed(2)}</span>
+                    <span className="font-medium text-sm text-gray-900 dark:text-neutral-100">${parseFloat(item.totalPrice).toFixed(2)}</span>
                     <button
                       type="button"
                       onClick={() => onStartEdit(item)}
@@ -307,7 +307,7 @@ export function CreateOrderItemsManager({
               label={t('admin.ordersPage.menuItem')}
               id="create-new-item-menuItemId"
               value={newItemData.menuItemId}
-              onChange={(value, label) => onNewItemDataChange({ ...newItemData, menuItemId: value, menuItemLabel: label || '' })}
+              onChange={(value, label, option) => onNewItemDataChange({ ...newItemData, menuItemId: value, menuItemLabel: label || '', menuItemName: option?.name ?? '', menuItemPrice: option?.price ?? 0 })}
               loadOptions={loadMenuItemOptions}
               placeholder={t('admin.ordersPage.selectMenuItem')}
               emptyMessage={t('admin.ordersPage.noMenuItemsForRestaurant')}
@@ -347,7 +347,7 @@ export function CreateOrderItemsManager({
                 type="button"
                 onClick={() => {
                   onShowAddForm(false)
-                  onNewItemDataChange({ menuItemId: '', menuItemLabel: '', quantity: '1', notes: '' })
+                  onNewItemDataChange({ menuItemId: '', menuItemLabel: '', menuItemName: '', menuItemPrice: 0, quantity: '1', notes: '' })
                 }}
                 className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800"
               >
@@ -364,11 +364,11 @@ export function CreateOrderItemsManager({
       ) : (
         <div className="space-y-2">
           {items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-lg p-3">
+            <div key={item.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-lg p-3 dark:bg-neutral-800 dark:border-neutral-700">
               {editingItemId === item.id ? (
                 <div className="flex-1 flex items-center gap-3">
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{item.menuItemName}</p>
+                    <p className="font-medium text-sm text-gray-900 dark:text-neutral-100">{item.menuItemName}</p>
                   </div>
                   <input
                     type="number"
@@ -406,14 +406,14 @@ export function CreateOrderItemsManager({
               ) : (
                 <>
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{item.menuItemName}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-sm text-gray-900 dark:text-neutral-100">{item.menuItemName}</p>
+                    <p className="text-xs text-gray-500 dark:text-neutral-400">
                       {item.quantity} x ${item.menuItemPrice.toFixed(2)}
                       {item.notes && <span className="ml-2 italic">({item.notes})</span>}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">${(item.menuItemPrice * item.quantity).toFixed(2)}</span>
+                    <span className="font-medium text-sm text-gray-900 dark:text-neutral-100">${(item.menuItemPrice * item.quantity).toFixed(2)}</span>
                     <button
                       type="button"
                       onClick={() => onStartEdit(item)}

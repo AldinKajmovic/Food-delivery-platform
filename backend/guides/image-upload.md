@@ -53,8 +53,9 @@ DELETE /api/upload
 ## Validation
 
 - **Max file size**: 5MB
-- **Allowed MIME types**: `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `image/jpg`, `image/svg+xml`
-- Validated both by multer middleware and the image utility
+- **Allowed MIME types**: `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `image/jpg`
+- `image/svg+xml` is intentionally **not** allowed: SVGs can embed scripts and are an XSS vector when served from our storage origin.
+- Validated both by multer middleware and the image utility (`ALLOWED_MIMETYPES` is kept in sync in both `upload.middleware.ts` and `utils/image.ts`)
 
 ## GCS Path Structure
 

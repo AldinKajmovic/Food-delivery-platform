@@ -10,7 +10,6 @@ describe('Image Utilities', () => {
       'image/webp',
       'image/gif',
       'image/jpg',
-      'image/svg+xml',
     ]
 
     it.each(validMimes)('should accept MIME type: %s', (mime) => {
@@ -32,6 +31,7 @@ describe('Image Utilities', () => {
       'text/html',
       'video/mp4',
       'application/javascript',
+      'image/svg+xml',
       '',
     ]
 

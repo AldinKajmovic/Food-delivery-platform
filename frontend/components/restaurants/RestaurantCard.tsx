@@ -19,8 +19,12 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
       : restaurant.deliveryFee
     : 0
 
-  const deliveryTimeMin = 15 + Math.floor(Math.random() * 10)
-  const deliveryTimeMax = deliveryTimeMin + 10 + Math.floor(Math.random() * 10)
+  // Derive a stable delivery-time estimate from the restaurant id so it stays
+  // consistent across re-renders (e.g. language switches) and avoids SSR/client
+  // hydration mismatches. Previously this used Math.random() at render time.
+  const seed = Array.from(restaurant.id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0)
+  const deliveryTimeMin = 15 + (seed % 10)
+  const deliveryTimeMax = deliveryTimeMin + 10 + ((seed * 7) % 10)
 
   return (
     <div
@@ -50,13 +54,6 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
               />
             </svg>
-          </div>
-        )}
-
-        {/* Discount Badge */}
-        {Math.random() > 0.5 && (
-          <div className="absolute top-3 left-3 bg-primary-500 text-white text-xs font-semibold px-2 py-1 rounded">
-            -{Math.floor(Math.random() * 20 + 10)}% off some items
           </div>
         )}
 

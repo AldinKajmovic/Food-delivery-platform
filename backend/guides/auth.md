@@ -127,15 +127,21 @@ router.get('/orders/:id', authenticate, ownsResource(async (req) => {
 ```typescript
 import { authLimiter, apiLimiter, sensitiveOpLimiter } from '../middlewares/rateLimiter'
 
-// Auth endpoints (5 requests per 15 minutes)
+// Auth endpoints (5 requests per 15 minutes, keyed by IP — pre-login)
 router.post('/login', authLimiter, handler)
 
 // Sensitive operations (3 requests per hour)
 router.post('/forgot-password', sensitiveOpLimiter, handler)
 
-// General API (100 requests per 15 minutes)
+// General API (300 requests per 15 minutes)
 router.get('/data', apiLimiter, handler)
 ```
+
+**Keying & limits.** All limiters except `authLimiter` are keyed **per authenticated user** (`user:<userId>`), falling back to an IPv6-safe IP key when no user is present (via `ipKeyGenerator`). Keying by IP alone drained a single shared bucket whenever many users shared one address — every request from `localhost` in development, or behind a reverse proxy / NAT in production — which caused spurious `429 Too Many Requests` on ordinary actions (e.g. accepting an order). `authLimiter` stays IP-keyed because it runs before authentication, where brute-force protection must be per-source.
+
+CORS preflight (`OPTIONS`) requests are **skipped** by every limiter — they are issued automatically by the browser for each cross-origin state-changing request and must not consume a user's budget.
+
+Current limits: `globalLimiter` 600/15min (app-wide), `apiLimiter` 300/15min (authenticated routes), `adminLimiter` 100/15min, `sensitiveOpLimiter` 3/hour, `authLimiter` 5/15min, `uploadLimiter` 30/15min, `socketTokenLimiter` 10/min, `resendVerificationLimiter` 2/5min.
 
 ## Database Schema
 

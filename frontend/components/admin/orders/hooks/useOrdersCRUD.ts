@@ -42,6 +42,8 @@ export interface NewItemData {
 export interface CreateNewItemData {
   menuItemId: string
   menuItemLabel: string
+  menuItemName: string
+  menuItemPrice: number
   quantity: string
   notes: string
 }
@@ -93,7 +95,7 @@ export function useOrdersCRUD() {
   const [createOrderItems, setCreateOrderItems] = useState<CreateOrderItem[]>([])
   const [showCreateAddItemForm, setShowCreateAddItemForm] = useState(false)
   const [createEditingItemId, setCreateEditingItemId] = useState<string | null>(null)
-  const [createNewItemData, setCreateNewItemData] = useState<CreateNewItemData>({ menuItemId: '', menuItemLabel: '', quantity: '1', notes: '' })
+  const [createNewItemData, setCreateNewItemData] = useState<CreateNewItemData>({ menuItemId: '', menuItemLabel: '', menuItemName: '', menuItemPrice: 0, quantity: '1', notes: '' })
   const [createEditItemData, setCreateEditItemData] = useState<EditItemData>({ quantity: '', notes: '' })
 
   // Load orders
@@ -159,7 +161,7 @@ export function useOrdersCRUD() {
     setCreateOrderItems([])
     setShowCreateAddItemForm(false)
     setCreateEditingItemId(null)
-    setCreateNewItemData({ menuItemId: '', menuItemLabel: '', quantity: '1', notes: '' })
+    setCreateNewItemData({ menuItemId: '', menuItemLabel: '', menuItemName: '', menuItemPrice: 0, quantity: '1', notes: '' })
     setFormError('')
     setShowCreateModal(true)
   }
@@ -360,9 +362,11 @@ export function useOrdersCRUD() {
   const handleCreateAddItem = () => {
     if (!createNewItemData.menuItemId || !createNewItemData.menuItemLabel) return
 
+    // Prefer the structured name/price captured on selection. Fall back to
+    // parsing the label only for safety if they weren't provided.
     const priceMatch = createNewItemData.menuItemLabel.match(/\$(\d+\.?\d*)/)
-    const price = priceMatch ? parseFloat(priceMatch[1]) : 0
-    const name = createNewItemData.menuItemLabel.replace(/\s*\(\$[\d.]+\)$/, '')
+    const price = createNewItemData.menuItemPrice || (priceMatch ? parseFloat(priceMatch[1]) : 0)
+    const name = createNewItemData.menuItemName || createNewItemData.menuItemLabel.replace(/\s*\(\$[\d.]+\)$/, '')
 
     const newItem: CreateOrderItem = {
       id: `temp-${Date.now()}`,
@@ -379,7 +383,7 @@ export function useOrdersCRUD() {
       return updated
     })
     setShowCreateAddItemForm(false)
-    setCreateNewItemData({ menuItemId: '', menuItemLabel: '', quantity: '1', notes: '' })
+    setCreateNewItemData({ menuItemId: '', menuItemLabel: '', menuItemName: '', menuItemPrice: 0, quantity: '1', notes: '' })
   }
 
   const handleCreateUpdateItem = (itemId: string) => {

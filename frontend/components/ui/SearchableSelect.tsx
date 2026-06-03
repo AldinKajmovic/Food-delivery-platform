@@ -1,18 +1,14 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-
-interface SelectOption {
-  value: string
-  label: string
-}
+import type { SelectOption } from '@/services/base/types'
 
 interface SearchableSelectProps {
   label?: string
   hint?: string
   error?: string
   value: string
-  onChange: (value: string, label?: string) => void
+  onChange: (value: string, label?: string, option?: SelectOption) => void
   placeholder?: string
   required?: boolean
   disabled?: boolean
@@ -108,7 +104,7 @@ export function SearchableSelect({
   }, [])
 
   const handleSelect = (option: SelectOption) => {
-    onChange(option.value, option.label)
+    onChange(option.value, option.label, option)
     setSelectedLabel(option.label)
     setIsOpen(false)
     setSearch('')

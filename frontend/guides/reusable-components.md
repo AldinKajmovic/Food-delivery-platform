@@ -348,7 +348,7 @@ interface SearchableSelectProps {
   hint?: string
   error?: string
   value: string
-  onChange: (value: string, label?: string) => void
+  onChange: (value: string, label?: string, option?: SelectOption) => void
   placeholder?: string
   required?: boolean
   disabled?: boolean
@@ -381,6 +381,7 @@ import { SearchableSelect } from '@/components/ui'
 - Clear button to reset selection
 - Shows loading state while fetching
 - Click outside to close
+- `onChange` receives the full selected `SelectOption` as a third argument. `SelectOption` carries optional structured `name`/`price` fields, so consumers can read real values instead of parsing them back out of the formatted `label` string (e.g. the Create Order item picker reads `option.price` directly).
 
 ---
 
@@ -393,4 +394,4 @@ import { SearchableSelect } from '@/components/ui'
 
 ---
 
-*Last updated: February 2026 - Added AddressAutocomplete and SearchableSelect documentation*
+*Last updated: June 2026 - SearchableSelect onChange now passes the full SelectOption (structured name/price); added dark-mode support to Create Order item cards*

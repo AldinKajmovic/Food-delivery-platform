@@ -232,6 +232,8 @@ class AdminService {
     return response.items.map((item) => ({
       value: item.id,
       label: `${item.name} ($${parseFloat(item.price).toFixed(2)})`,
+      name: item.name,
+      price: parseFloat(item.price),
     }))
   }
 

@@ -62,9 +62,8 @@ interface PublicRestaurant {
 
 - Cover image with fallback gradient
 - Logo overlay with fallback initial
-- Discount badge (randomly displayed for demo)
 - Rating display (converted to percentage)
-- Delivery time (randomly generated for demo)
+- Delivery time estimate (derived deterministically from the restaurant id so it stays stable across re-renders/language switches; not from real data yet)
 - Free delivery badge when deliveryFee is 0
 - Category tags (max 3 displayed)
 - Zoom-in hover effect on the entire card

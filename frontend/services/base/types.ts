@@ -15,6 +15,9 @@ export interface PaginatedResponse<T> {
 export interface SelectOption {
   value: string
   label: string
+  // Optional structured data so consumers don't have to parse it back out of `label`.
+  name?: string
+  price?: number
 }
 
 export interface MessageResponse {
